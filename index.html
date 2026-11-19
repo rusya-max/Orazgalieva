@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#167a55" />
+  <title>DonateBox — делимся нужным</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="DonateBox">
+        <span class="brand-mark">D</span><span>Donate<span class="brand-light">Box</span></span>
+      </a>
+      <div class="sidebar-label">МЕНЮ</div>
+      <nav class="side-nav">
+        <button class="nav-link active" data-page="home"><span>⌂</span> Главная</button>
+        <button class="nav-link" data-page="favorites"><span>♡</span> Избранное</button>
+        <button class="nav-link" data-page="requests"><span>↗</span> Мои заявки</button>
+        <button class="nav-link" data-page="myitems"><span>▣</span> Мои объявления</button>
+      </nav>
+      <div class="sidebar-note">
+        <div class="note-icon">♻</div>
+        <strong>Вещи заслуживают<br>второй жизни</strong>
+        <p>Отдавай то, чем не пользуешься, и находи то, что нужно.</p>
+      </div>
+      <button class="profile-mini" id="sidebarProfile">
+        <span class="avatar">А</span><span><b id="sideName">Алия</b><small>Мой профиль</small></span><span class="more">···</span>
+      </button>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">D</span> DonateBox</div>
+        <button class="location-pill" id="regionButton" type="button" aria-label="Выбрать регион"><span>⌖</span> <span id="currentRegionLabel">Западно-Казахстанская область</span> <span class="chevron">⌄</span></button>
+        <div class="top-actions">
+          <button class="icon-btn" id="headerBell" aria-label="Уведомления">♧<i></i></button>
+          <button class="user-chip" id="headerProfile"><span class="avatar small">А</span><span id="headerName">Алия</span><span>⌄</span></button>
+        </div>
+      </header>
+
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">СООБЩЕСТВО ДОБРЫХ ДЕЛ</span>
+            <h1>Ненужное тебе —<br><em>нужное кому-то.</em></h1>
+            <p>Отдавай вещи бесплатно, находи полезное и помогай вещам обрести новый дом.</p>
+            <button class="primary-btn" id="heroAdd">＋ Отдать вещь</button>
+          </div>
+          <div class="hero-art">
+            <div class="hero-circle"></div>
+            <div class="hero-box">📦</div><div class="floating f1">♡</div><div class="floating f2">✦</div>
+            <div class="hero-caption">Делись добром<br><b>каждый день</b></div>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div><span class="eyebrow green">НАЙДИ ТО, ЧТО НУЖНО</span><h2>Категории</h2></div>
+          <button class="text-btn" id="showAllCategories">Все категории →</button>
+        </div>
+        <div class="categories" id="categories">
+          <button class="category active" data-category="Все"><span class="cat-icon all">✦</span><b>Все вещи</b></button>
+          <button class="category" data-category="Одежда"><span class="cat-icon clothes">♧</span><b>Одежда</b></button>
+          <button class="category" data-category="Для дома"><span class="cat-icon home">⌂</span><b>Для дома</b></button>
+          <button class="category" data-category="Техника"><span class="cat-icon tech">▣</span><b>Техника</b></button>
+          <button class="category" data-category="Книги"><span class="cat-icon books">▤</span><b>Книги</b></button>
+          <button class="category" data-category="Детское"><span class="cat-icon kids">♡</span><b>Детское</b></button>
+          <button class="category" data-category="Другое"><span class="cat-icon other">✿</span><b>Другое</b></button>
+        </div>
+
+        <div class="section-heading listing-heading">
+          <div><span class="eyebrow green">ОБЪЯВЛЕНИЯ СООБЩЕСТВА</span><h2>Можно забрать</h2></div>
+          <div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Найти вещь..." /><kbd>⌘ K</kbd></div>
+        </div>
+        <div class="filter-row">
+          <span id="resultCount">Подобрали для вас</span>
+          <select id="sortSelect" aria-label="Сортировка"><option value="new">Сначала новые</option><option value="old">Сначала старые</option></select>
+        </div>
+        <div class="item-grid" id="itemGrid"></div>
+        <div class="empty-state hidden" id="emptyState"><div>🔎</div><h3>Ничего не нашлось</h3><p>Попробуйте изменить запрос или выбрать другую категорию.</p><button class="outline-btn" id="resetFilters">Сбросить фильтры</button></div>
+      </section>
+
+      <section class="page" id="page-favorites">
+        <div class="page-title"><span class="eyebrow green">СОХРАНЁННОЕ</span><h1>Избранное</h1><p>Вещи, которые вам понравились.</p></div>
+        <div class="item-grid" id="favoritesGrid"></div>
+        <div class="empty-state hidden" id="favoritesEmpty"><div>♡</div><h3>Пока здесь пусто</h3><p>Нажимайте на сердечко у понравившихся вещей.</p></div>
+      </section>
+
+      <section class="page" id="page-requests">
+        <div class="page-title"><span class="eyebrow green">ВАША АКТИВНОСТЬ</span><h1>Мои заявки</h1><p>Здесь отображаются вещи, которые вы хотите забрать.</p></div>
+        <div class="request-list" id="requestList"></div>
+        <div class="empty-state hidden" id="requestsEmpty"><div>✉</div><h3>Заявок пока нет</h3><p>Найдите интересную вещь и отправьте владельцу заявку.</p></div>
+      </section>
+
+      <section class="page" id="page-myitems">
+        <div class="page-title title-with-action"><div><span class="eyebrow green">ВАШ ВКЛАД</span><h1>Мои объявления</h1><p>Управляйте вещами, которыми хотите поделиться.</p></div><button class="primary-btn" id="myAdd">＋ Добавить вещь</button></div>
+        <div class="item-grid" id="myItemsGrid"></div>
+        <div class="empty-state hidden" id="myItemsEmpty"><div>📦</div><h3>Вы ещё ничего не разместили</h3><p>Подарите ненужной вещи новый дом.</p><button class="primary-btn" id="emptyAdd">＋ Добавить вещь</button></div>
+      </section>
+
+      <section class="page" id="page-profile">
+        <div class="page-title"><span class="eyebrow green">ЛИЧНЫЙ КАБИНЕТ</span><h1>Мой профиль</h1><p>Информация о вашем аккаунте.</p></div>
+        <div class="profile-card">
+          <div class="profile-avatar" id="profileAvatarView">А</div><div class="profile-info"><h2 id="profileDisplayName">Алия</h2><p id="profileEmail">aliya@example.com</p><span class="member-tag">✦ Участник DonateBox</span></div>
+          <div class="profile-buttons"><label class="outline-btn upload-btn" for="profilePhotoInput">📷 Фото профиля</label><input class="file-input-hidden" id="profilePhotoInput" type="file" accept="image/*"><button class="outline-btn" id="editProfile">Изменить имя</button></div>
+        </div>
+        <div class="stats-grid"><div class="stat-card"><span>Мои объявления</span><b id="statItems">0</b></div><div class="stat-card"><span>Заявки</span><b id="statRequests">0</b></div><div class="stat-card"><span>Избранное</span><b id="statFavorites">0</b></div></div>
+        <div class="profile-actions"><button id="logoutBtn" class="logout-btn">↪ Выйти из аккаунта</button><p>Данные этого демонстрационного приложения хранятся в браузере на вашем устройстве.</p></div>
+      </section>
+
+      <footer class="footer"><span>© 2026 DonateBox</span><span>Делимся вещами — меняем мир к лучшему ♡</span></footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav">
+    <button class="active" data-page="home"><span>⌂</span>Главная</button>
+    <button data-page="favorites"><span>♡</span>Избранное</button>
+    <button class="mobile-add" id="mobileAdd">＋</button>
+    <button data-page="requests"><span>↗</span>Заявки</button>
+    <button data-page="profile"><span>○</span>Профиль</button>
+  </nav>
+
+  <div class="modal-backdrop hidden" id="regionModal">
+    <div class="modal region-modal">
+      <button class="modal-close" data-close="regionModal">×</button>
+      <span class="eyebrow green">МЕСТОПОЛОЖЕНИЕ</span>
+      <h2>Выберите регион</h2>
+      <p class="modal-sub">В каталоге будут показаны объявления выбранного региона.</p>
+      <label class="region-field">Регион<select id="regionSelect">
+        <option value="Все регионы">Все регионы Казахстана</option>
+        <option>Абайская область</option><option>Акмолинская область</option><option>Актюбинская область</option><option>Алматинская область</option><option>Атырауская область</option><option>Восточно-Казахстанская область</option><option>Жамбылская область</option><option>Жетысуская область</option><option>Западно-Казахстанская область</option><option>Карагандинская область</option><option>Костанайская область</option><option>Кызылординская область</option><option>Мангистауская область</option><option>Павлодарская область</option><option>Северо-Казахстанская область</option><option>Туркестанская область</option><option>Улытауская область</option><option>Астана</option><option>Алматы</option><option>Шымкент</option>
+      </select></label>
+      <div class="region-actions"><button class="outline-btn" id="clearRegion" type="button">Все регионы</button><button class="primary-btn" id="applyRegion" type="button">Применить</button></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="itemModal">
+    <div class="modal">
+      <button class="modal-close" data-close="itemModal">×</button>
+      <span class="eyebrow green">ПОДЕЛИТЬСЯ ДОБРОМ</span><h2>Добавить объявление</h2>
+      <p class="modal-sub">Расскажите о вещи, которой хотите подарить вторую жизнь.</p>
+      <form id="itemForm">
+        <label>Название вещи<input id="itemName" required maxlength="55" placeholder="Например, настольная лампа"></label>
+        <div class="form-two"><label>Категория<select id="itemCategory" required><option>Одежда</option><option>Для дома</option><option>Техника</option><option>Книги</option><option>Детское</option><option>Другое</option></select></label><label>Состояние<select id="itemCondition"><option>Хорошее</option><option>Как новое</option><option>Есть следы использования</option></select></label></div>
+        <label>Описание<textarea id="itemDescription" rows="3" maxlength="240" placeholder="Опишите вещь и её особенности..." required></textarea></label>
+        <label>Фото вещи <span class="muted">(можно загрузить своё или выбрать пример)</span></label>
+        <label class="photo-upload-box" for="itemPhotoInput"><span>＋</span><b>Загрузить фото с устройства</b><small>JPG, PNG или WEBP</small></label><input class="file-input-hidden" id="itemPhotoInput" type="file" accept="image/*"><div class="upload-preview hidden" id="itemPhotoPreview"><img id="itemPhotoPreviewImg" alt="Предпросмотр фото вещи"><button type="button" id="removeItemPhoto" class="outline-btn">Убрать фото</button></div>
+        <div class="image-choices" id="imageChoices"></div>
+        <label>Район / место встречи<input id="itemPlace" placeholder="Например, центр Уральска" required></label>
+        <button class="primary-btn full-btn" type="submit">Опубликовать объявление</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="detailModal">
+    <div class="modal detail-modal"><button class="modal-close" data-close="detailModal">×</button><div id="detailContent"></div></div>
+  </div>
+  <div class="modal-backdrop hidden" id="authModal">
+    <div class="modal auth-modal"><button class="modal-close" data-close="authModal">×</button><div class="auth-logo">D</div><span class="eyebrow green">РАДЫ ВАС ВИДЕТЬ</span><h2 id="authTitle">Войти в DonateBox</h2><p class="modal-sub">Для демонстрации можно войти под любым именем.</p><form id="authForm"><label>Ваше имя<input id="authName" required placeholder="Например, Алия"></label><label>Email<input id="authEmail" type="email" required placeholder="name@example.com"></label><button class="primary-btn full-btn" type="submit">Продолжить</button></form><p class="auth-foot">Это учебная версия без настоящей серверной регистрации.</p></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
